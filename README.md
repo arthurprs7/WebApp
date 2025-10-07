@@ -37,7 +37,6 @@ Funcionalidades principais:
 ![JS Badge](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![PHP Badge](https://img.shields.io/badge/PHP-777BB4?style=flat-square&logo=php&logoColor=white)
 ![MySQL Badge](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
-![Spider Badge](https://img.shields.io/badge/🕷️_Homem-Aranha-Fazendo-Joia-ED1C24?style=flat-square&logo=spiderman&logoColor=white)
 
 ---
 
