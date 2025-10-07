@@ -40,6 +40,5 @@ Funcionalidades principais:
 
 ---
 
-> ✨ Projeto desenvolvido com dedicação por **Arthur Gabriel** — 3º DS
 
-> ✨ Projeto desenvolvido com dedicação por **Arthur Gabriel** — 3º DS
+> Projeto desenvolvido com dedicação por **Arthur Gabriel** — 3º DS
