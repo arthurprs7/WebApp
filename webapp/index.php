@@ -33,6 +33,13 @@ $events = $stmt->fetchAll();
                             <i class="bi bi-calendar-event me-1"></i>Eventos
                         </a>
                     </li>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="create_event.php">
+                            <i class="bi bi-plus-circle me-1"></i>Criar Evento
+                        </a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
                 <ul class="navbar-nav align-items-center">
                     <?php if (isset($_SESSION['user_id'])): ?>

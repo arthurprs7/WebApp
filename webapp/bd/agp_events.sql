@@ -1,11 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Tempo de geração: 06/11/2025 às 16:02
--- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -21,6 +13,9 @@ SET time_zone = "+00:00";
 -- Banco de dados: `agp_events`
 --
 
+-- Banco de dados: `bd_events`
+
+
 -- --------------------------------------------------------
 
 --
@@ -33,16 +28,20 @@ CREATE TABLE `events` (
   `description` text DEFAULT NULL,
   `date` datetime NOT NULL,
   `type` enum('show','standup') NOT NULL,
-  `image` varchar(255) DEFAULT NULL
+  `image` varchar(255) DEFAULT NULL,
+  `capacity` int(6) DEFAULT NULL,
+  `local_address` varchar(255) DEFAULT NULL,
+  `local_lat` double DEFAULT NULL,
+  `local_lng` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `events`
 --
 
-INSERT INTO `events` (`id`, `title`, `description`, `date`, `type`, `image`) VALUES
-(1, 'Show de Rock', 'Banda XYZ em ação com hits clássicos!', '2023-12-01 20:00:00', 'show', 'images/show1.jpg'),
-(2, 'Stand-Up Comedy', 'Comediante ABC trazendo risadas inesquecíveis.', '2023-12-05 19:00:00', 'standup', 'images/standup1.jpg');
+INSERT INTO `events` (`id`, `title`, `description`, `date`, `type`, `image`, `capacity`, `local_address`, `local_lat`, `local_lng`) VALUES
+(1, 'Show de Rock', 'Banda XYZ em ação com hits clássicos!', '2023-12-01 20:00:00', 'show', 'images/show1.jpg', NULL, NULL, NULL, NULL),
+(2, 'Stand-Up Comedy', 'Comediante ABC trazendo risadas inesquecíveis.', '2023-12-05 19:00:00', 'standup', 'images/standup1.jpg', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -73,36 +72,8 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `failed_attempts`, `
 --
 
 --
--- Índices de tabela `events`
---
-ALTER TABLE `events`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices de tabela `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
--- AUTO_INCREMENT para tabelas despejadas
---
-
---
--- AUTO_INCREMENT de tabela `events`
---
-ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de tabela `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- Arquivo antigo: agp_events.sql
+-- OBS: Este arquivo foi mantido apenas como referência histórica.
+-- O projeto agora usa um único script canônico: bd/bd_events_create.sql
+-- Você pode excluir este arquivo com segurança se já tiver o banco criado/importado
+-- (A migração/estrutura completa está em bd/bd_events_create.sql)
