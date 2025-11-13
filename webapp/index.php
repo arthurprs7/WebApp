@@ -1,9 +1,9 @@
 <?php
 session_start();
-require 'config.php';
+require 'backend/config.php';
 
 // Buscar eventos
-$stmt = $pdo->query("SELECT * FROM events");
+$stmt = $pdo->query("SELECT * FROM events ORDER BY date DESC");
 $events = $stmt->fetchAll();
 ?>
 
@@ -16,7 +16,7 @@ $events = $stmt->fetchAll();
     <!-- Bootstrap 5 CSS e Ícones -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="frontend/assets/css/style.css">
 </head>
 <body>
     <!-- Navbar com Bootstrap -->
@@ -35,7 +35,7 @@ $events = $stmt->fetchAll();
                     </li>
                     <?php if (isset($_SESSION['user_id'])): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="create_event.php">
+                        <a class="nav-link" href="backend/create_event.php">
                             <i class="bi bi-plus-circle me-1"></i>Criar Evento
                         </a>
                     </li>
@@ -48,7 +48,7 @@ $events = $stmt->fetchAll();
                                 <i class="bi bi-person-circle me-1"></i>
                                 Olá, <?php echo htmlspecialchars($_SESSION['username']); ?>!
                             </span>
-                            <a class="nav-link" href="logout.php">
+                            <a class="nav-link" href="backend/logout.php">
                                 <i class="bi bi-box-arrow-right me-1"></i>Sair
                             </a>
                         </li>
@@ -76,18 +76,80 @@ $events = $stmt->fetchAll();
         <?php endif; ?>
         <h2 class="mb-4">Próximos Eventos</h2>
         <div class="row">
-            <?php foreach ($events as $event): ?>
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <img src="<?php echo $event['image']; ?>" class="card-img-top" alt="<?php echo $event['title']; ?>" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title"><?php echo $event['title']; ?></h5>
-                            <p class="card-text"><?php echo $event['description']; ?></p>
-                            <p class="card-text"><small class="text-muted">Data: <?php echo date('d/m/Y H:i', strtotime($event['date'])); ?> | Tipo: <?php echo ucfirst($event['type']); ?></small></p>
-                        </div>
+            <?php if (empty($events)): ?>
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>Nenhum evento cadastrado ainda.
+                        <?php if (isset($_SESSION['user_id'])): ?>
+                            <a href="create_event.php" class="alert-link">Crie um novo evento!</a>
+                        <?php endif; ?>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            <?php else: ?>
+                <?php foreach ($events as $event): ?>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <?php if ($event['image']): ?>
+                                <img src="<?php echo htmlspecialchars($event['image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($event['title']); ?>" style="height: 200px; object-fit: cover;">
+                            <?php else: ?>
+                                <div class="card-img-top bg-secondary" style="height: 200px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="bi bi-calendar-event text-white" style="font-size: 3rem;"></i>
+                                </div>
+                            <?php endif; ?>
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo htmlspecialchars($event['title']); ?></h5>
+                                <p class="card-text"><?php echo htmlspecialchars(substr($event['description'], 0, 100)); ?>...</p>
+                                <p class="card-text"><small class="text-muted">
+                                    📅 <?php echo date('d/m/Y H:i', strtotime($event['date'])); ?> | 
+                                    🎭 <?php echo ucfirst($event['type']); ?>
+                                </small></p>
+                                <?php if ($event['capacity']): ?>
+                                    <p class="card-text"><small class="text-muted">👥 Capacidade: <?php echo $event['capacity']; ?> pessoas</small></p>
+                                <?php endif; ?>
+                                <?php if ($event['local_address']): ?>
+                                    <p class="card-text"><small class="text-muted">📍 <?php echo htmlspecialchars($event['local_address']); ?></small></p>
+                                <?php endif; ?>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <div class="btn-group w-100" role="group">
+                                <a href="backend/view_event.php?id=<?php echo $event['id']; ?>" class="btn btn-sm btn-primary">
+                                        <i class="bi bi-eye me-1"></i>Ver
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $event['id']; ?>">
+                                        <i class="bi bi-trash me-1"></i>Deletar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal de Confirmação de Exclusão -->
+                        <div class="modal fade" id="deleteModal<?php echo $event['id']; ?>" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-danger text-white">
+                                        <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2"></i>Confirmar Exclusão</h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>Tem certeza que deseja deletar o evento:</strong></p>
+                                        <p class="text-danger"><strong><?php echo htmlspecialchars($event['title']); ?></strong></p>
+                                        <p class="text-muted">Esta ação não pode ser desfeita!</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <form action="backend/delete-event.php" method="POST" style="display: inline;">
+                                            <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="bi bi-trash me-1"></i>Deletar Evento
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -100,7 +162,7 @@ $events = $stmt->fetchAll();
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="login.php" method="POST">
+                    <form action="backend/login.php" method="POST">
                         <div class="mb-3">
                             <label for="username" class="form-label">Usuário</label>
                             <input type="text" class="form-control" id="username" name="username" required>
@@ -112,7 +174,7 @@ $events = $stmt->fetchAll();
                         <button type="submit" class="btn btn-primary w-100">Entrar</button>
                     </form>
                     <div class="mt-3 text-center">
-                        <a href="cadastro.php">Não tem conta? Cadastre-se</a>
+                        <a href="backend/cadastro.php">Não tem conta? Cadastre-se</a>
                     </div>
                 </div>
             </div>
@@ -121,6 +183,6 @@ $events = $stmt->fetchAll();
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/script.js"></script>
+    <script src="frontend/assets/js/script.js"></script>
 </body>
 </html>

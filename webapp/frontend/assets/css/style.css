@@ -1,0 +1,143 @@
+/* Customizações leves para Bootstrap */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Estilos da Navbar */
+.navbar {
+    padding: 0.8rem 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.4rem;
+    padding: 0 1rem;
+}
+
+.navbar-nav .nav-link {
+    padding: 0.5rem 1rem !important;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.navbar-text {
+    padding: 0.5rem 1rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.nav-user-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Estilos dos Cards */
+.card {
+    transition: transform 0.2s;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Estilos dos Formulários */
+.form-floating > label {
+    padding-left: 1.5rem;
+}
+
+.form-floating > .form-control {
+    padding-left: 1.5rem;
+}
+
+.form-control:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}
+
+/* Estilos dos Cards */
+.card {
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Estilos do Modal */
+.modal-content {
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    border-bottom: 2px solid #f0f0f0;
+    padding: 1.5rem;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+/* Estilos dos Botões */
+.btn {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+}
+
+/* Estilos dos Links */
+a {
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #0b5ed7;
+}
+
+/* Estilos das Mensagens */
+.alert {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilos específicos para Google Maps */
+#eventMap, #mapContainer {
+    height: 400px;
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+/* Estilos para loader/spinner */
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
